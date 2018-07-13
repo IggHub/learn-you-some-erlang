@@ -34,3 +34,34 @@ old_men([Person = {male, Age}|People], Acc) when Age > 60 ->
   old_men(People, [Person|Acc]);
 old_men([_|People], Acc) ->
   old_men(People, Acc).
+
+filter(Pred, L) -> lists:reverse(filter(Pred, L, [])).
+filter(_,[], Acc) -> Acc;
+filter(Pred, [Head|Tail], Acc) ->
+  case Pred(Head) of
+    true -> filter(Pred, Tail, [Head | Acc]);
+    false -> filter(Pred, Tail, Acc)
+  end.
+
+%% find the maximum of a list
+max([H|T]) -> max2(T, H).
+ 
+max2([], Max) -> Max;
+max2([H|T], Max) when H > Max -> max2(T, H);
+max2([_|T], Max) -> max2(T, Max).
+ 
+%% find the minimum of a list
+min([H|T]) -> min2(T,H).
+ 
+min2([], Min) -> Min;
+min2([H|T], Min) when H < Min -> min2(T,H);
+min2([_|T], Min) -> min2(T, Min).
+ 
+%% sum of all the elements of a list
+sum(L) -> sum(L,0).
+ 
+sum([], Sum) -> Sum;
+sum([H|T], Sum) -> sum(T, H+Sum).
+
+fold(_, Start, []) -> Start;
+fold(F, Start, [Head | Tail]) -> fold(F, F(Head, Start), Tail).
